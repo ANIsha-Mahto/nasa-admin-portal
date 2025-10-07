@@ -1,101 +1,275 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NASA Admin Panel</title>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h2 { margin-top: 40px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    table, th, td { border: 1px solid black; }
+    th, td { padding: 8px; text-align: left; }
+    input { margin: 5px 0; padding: 5px; width: 200px; }
+    button { padding: 5px 10px; margin-top: 5px; }
+  </style>
 </head>
 <body>
-  <h1>🚀 NASA Admin Panel</h1>
 
-  <!-- Add Mission Form -->
-  <h2>Add New Mission</h2>
-  <input type="text" id="missionTitle" placeholder="Title"><br>
-  <input type="number" id="missionYear" placeholder="Year"><br>
-  <input type="text" id="missionStatus" placeholder="Status (active/completed/upcoming)"><br>
-  <textarea id="missionDesc" placeholder="Description"></textarea><br>
-  <input type="text" id="missionImage" placeholder="Image URL"><br>
-  <button onclick="addMission()">Add Mission</button>
+  <h1>NASA Admin Panel</h1>
 
-  <hr>
-
-  <h2>All Missions</h2>
-  <div id="missionsList"></div>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js"></script>
-
+  <!-- Firebase Initialization -->
   <script>
-    // 🔧 Replace with your Firebase config
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_AUTH_DOMAIN",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_STORAGE_BUCKET",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyC98w39i2iI3T8wgLjb6Ql6ZwkZ2lKnrVA",
+      authDomain: "nasa-19d16.firebaseapp.com",
+      projectId: "nasa-19d16",
+      storageBucket: "nasa-19d16.firebasestorage.app",
+      messagingSenderId: "638065745707",
+      appId: "1:638065745707:web:d51b9b89319f205dd72f6e",
     };
-
-    // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+  </script>
 
-    // ✅ Function to add mission
+  <!-- ==================== Missions Section ==================== -->
+  <h2>Missions</h2>
+  <form id="missionForm">
+    <input type="text" id="missionTitle" placeholder="Title" required>
+    <input type="number" id="missionYear" placeholder="Year" required>
+    <input type="text" id="missionStatus" placeholder="Status" required>
+    <input type="text" id="missionDescription" placeholder="Description" required>
+    <input type="text" id="missionImage" placeholder="Image URL" required>
+    <button type="button" onclick="addMission()">Add Mission</button>
+  </form>
+
+  <table id="missionsTable">
+    <thead>
+      <tr>
+        <th>Title</th><th>Year</th><th>Status</th><th>Description</th><th>Image</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- ==================== Projects Section ==================== -->
+  <h2>Projects</h2>
+  <form id="projectForm">
+    <input type="text" id="projectTitle" placeholder="Title" required>
+    <input type="text" id="projectDescription" placeholder="Description" required>
+    <input type="text" id="projectType" placeholder="Type (upcoming/current)" required>
+    <button type="button" onclick="addProject()">Add Project</button>
+  </form>
+
+  <table id="projectsTable">
+    <thead>
+      <tr>
+        <th>Title</th><th>Description</th><th>Type</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- ==================== Rovers Section ==================== -->
+  <h2>Rovers</h2>
+  <form id="roverForm">
+    <input type="text" id="roverName" placeholder="Rover Name" required>
+    <input type="text" id="roverMission" placeholder="Mission Name" required>
+    <input type="text" id="roverImage" placeholder="Image URL" required>
+    <button type="button" onclick="addRover()">Add Rover</button>
+  </form>
+
+  <table id="roversTable">
+    <thead>
+      <tr>
+        <th>Name</th><th>Mission</th><th>Image</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // ==================== Missions CRUD ====================
     function addMission() {
       const title = document.getElementById('missionTitle').value;
-      const year = parseInt(document.getElementById('missionYear').value);
+      const year = document.getElementById('missionYear').value;
       const status = document.getElementById('missionStatus').value;
-      const description = document.getElementById('missionDesc').value;
+      const description = document.getElementById('missionDescription').value;
       const image = document.getElementById('missionImage').value;
 
-      db.collection("missions").add({
-        title,
-        year,
-        status,
-        description,
-        image
-      }).then(() => {
-        alert("✅ Mission added!");
-        loadMissions(); // Reload after adding
-      }).catch((error) => {
-        console.error("❌ Error adding mission: ", error);
-      });
+      db.collection("missions").add({title, year, status, description, image})
+        .then(() => { alert("Mission added!"); fetchMissions(); })
+        .catch(err => console.error(err));
     }
 
-    // 🔁 Function to load and display missions
-    function loadMissions() {
-      const container = document.getElementById('missionsList');
-      container.innerHTML = '';
+    function deleteMission(id) {
+      db.collection("missions").doc(id).delete()
+        .then(() => fetchMissions())
+        .catch(err => console.error(err));
+    }
 
-      db.collection("missions").get().then((snapshot) => {
-        snapshot.forEach((doc) => {
+    function fetchMissions() {
+      db.collection("missions").get().then(snapshot => {
+        const tbody = document.getElementById('missionsTable').querySelector('tbody');
+        tbody.innerHTML = '';
+        snapshot.forEach(doc => {
           const data = doc.data();
-          const missionHTML = `
-            <div style="border:1px solid #ccc; padding:10px; margin:10px;">
-              <h3>${data.title} (${data.year})</h3>
-              <p><strong>Status:</strong> ${data.status}</p>
-              <p>${data.description}</p>
-              <img src="${data.image}" alt="mission image" width="200"><br>
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${data.title}</td>
+            <td>${data.year}</td>
+            <td>${data.status}</td>
+            <td>${data.description}</td>
+            <td><img src="${data.image}" width="80"></td>
+            <td>
               <button onclick="deleteMission('${doc.id}')">Delete</button>
-            </div>
+            </td>
           `;
-          container.innerHTML += missionHTML;
+          tbody.appendChild(row);
         });
       });
     }
+    function editMission(id, title, year, status, description, image) {
+    document.getElementById('missionTitle').value = title;
+    document.getElementById('missionYear').value = year;
+    document.getElementById('missionStatus').value = status;
+    document.getElementById('missionDescription').value = description;
+    document.getElementById('missionImage').value = image;
 
-    
-    // ❌ Function to delete mission
-    function deleteMission(id) {
-      db.collection("missions").doc(id).delete().then(() => {
-        alert("🗑 Mission deleted!");
-        loadMissions();
-      });
+    // Change Add button to Update button
+    const btn = document.querySelector('#missionForm button');
+    btn.textContent = 'Update Mission';
+    btn.onclick = function() {
+      db.collection("missions").doc(id).update({
+        title: document.getElementById('missionTitle').value,
+        year: document.getElementById('missionYear').value,
+        status: document.getElementById('missionStatus').value,
+        description: document.getElementById('missionDescription').value,
+        image: document.getElementById('missionImage').value
+      }).then(() => {
+        alert("Mission updated!");
+        fetchMissions();
+        btn.textContent = 'Add Mission';
+        btn.onclick = addMission;
+        document.getElementById('missionForm').reset();
+     });
+    }
+  }
+
+
+    // ==================== Projects CRUD ====================
+    function addProject() {
+      const title = document.getElementById('projectTitle').value;
+      const description = document.getElementById('projectDescription').value;
+      const type = document.getElementById('projectType').value;
+
+      db.collection("projects").add({title, description, type})
+        .then(() => { alert("Project added!"); fetchProjects(); })
+        .catch(err => console.error(err));
     }
 
-    
-    // Call loadMissions() when page loads
-    window.onload = loadMissions;
+    function deleteProject(id) {
+      db.collection("projects").doc(id).delete().then(() => fetchProjects());
+    }
+
+    function fetchProjects() {
+      db.collection("projects").get().then(snapshot => {
+        const tbody = document.getElementById('projectsTable').querySelector('tbody');
+        tbody.innerHTML = '';
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${data.title}</td>
+            <td>${data.description}</td>
+            <td>${data.type}</td>
+            <td><button onclick="deleteProject('${doc.id}')">Delete</button></td>
+          `;
+          tbody.appendChild(row);
+        });
+      });
+    }
+    function editProject(id, title, description, type) {
+    document.getElementById('projectTitle').value = title;
+    document.getElementById('projectDescription').value = description;
+    document.getElementById('projectType').value = type;
+
+    const btn = document.querySelector('#projectForm button');
+    btn.textContent = 'Update Project';
+    btn.onclick = function() {
+      db.collection("projects").doc(id).update({
+        title: document.getElementById('projectTitle').value,
+        description: document.getElementById('projectDescription').value,
+        type: document.getElementById('projectType').value
+      }).then(() => {
+        alert("Project updated!");
+        fetchProjects();
+         btn.textContent = 'Add Project';
+        btn.onclick = addProject;
+        document.getElementById('projectForm').reset();
+      });
+    }
+  }
+
+    // ==================== Rovers CRUD ====================
+    function addRover() {
+      const name = document.getElementById('roverName').value;
+      const mission = document.getElementById('roverMission').value;
+      const image = document.getElementById('roverImage').value;
+
+      db.collection("rovers").add({name, mission, image})
+        .then(() => { alert("Rover added!"); fetchRovers(); })
+        .catch(err => console.error(err));
+    }
+
+    function deleteRover(id) {
+      db.collection("rovers").doc(id).delete().then(() => fetchRovers());
+    }
+
+    function fetchRovers() {
+      db.collection("rovers").get().then(snapshot => {
+        const tbody = document.getElementById('roversTable').querySelector('tbody');
+        tbody.innerHTML = '';
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${data.name}</td>
+            <td>${data.mission}</td>
+            <td><img src="${data.image}" width="80"></td>
+            <td><button onclick="deleteRover('${doc.id}')">Delete</button></td>
+          `;
+          tbody.appendChild(row);
+        });
+      });
+    }
+    function editRover(id, name, mission, image) {
+    document.getElementById('roverName').value = name;
+    document.getElementById('roverMission').value = mission;
+    document.getElementById('roverImage').value = image;
+
+    const btn = document.querySelector('#roverForm button');
+    btn.textContent = 'Update Rover';
+    btn.onclick = function() {
+      db.collection("rovers").doc(id).update({
+        name: document.getElementById('roverName').value,
+        mission: document.getElementById('roverMission').value,
+        image: document.getElementById('roverImage').value
+      }).then(() => {
+        alert("Rover updated!");
+        fetchRovers();
+        btn.textContent = 'Add Rover';
+        btn.onclick = addRover;
+        document.getElementById('roverForm').reset();
+      });
+    }
+  }
   </script>
+
 </body>
 </html>
