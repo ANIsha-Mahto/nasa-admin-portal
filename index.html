@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universe Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">
+            <img src="content/nasa_logo_white.png" alt="NASA Logo">
+        </div>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="missions.html">Missions</a>
+            <a href="projects.html">Projects</a>
+            <a href="rovers.html">Rovers</a>
+            
+            <div class="button"><a href="login.html">Log In</a></div>
+            <div class="button"><a href="signup.html">Sign Up</a></div>
+        </nav>
+    </header>
+
+    <div class="hero-section">
+        <img src="content/earth.png" alt="Earth from Space" class="background-image">
+        
+        <div class="content-container">
+            <div class="astronaut-area">
+                <div class="rectangle-box"></div>
+                <img src="content/aestronout.png" alt="Astronaut" class="astronaut-image">
+            </div>
+
+            <div class="text-content">
+                <div class="main-title">
+                    <span class="cap-text">EXPLORE THE UNIVERSE</span>
+                    <p class="description">Discover NASA's groundbreaking missions, cutting-edge research, and the technology that powers humanity's journey into the cosmos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gradient Transition -->
+    <div class="gradient-transition"></div>
+
+    <!-- About NASA Section -->
+    <section class="section" id="about-nasa">
+        <h2 class="section-title">About NASA</h2>
+        <div class="about-content">
+            <p>NASA, the National Aeronautics and Space Administration, is the United States government agency responsible for the nation's civilian space program and for aeronautics and aerospace research.</p>
+            <p>Since its establishment in 1958, NASA has led the world in space exploration, scientific discovery, and technological innovation. From the Apollo moon landings to the Mars rovers and the International Space Station, NASA continues to push the boundaries of human knowledge and capability.</p>
+        </div>
+    </section>
+
+    <!-- APOD Section -->
+    <section class="section" id="apod-section">
+        <h2 class="section-title">Astronomy Picture of the Day</h2>
+        <div class="apod-container">
+            <img id="apod-img" src="https://apod.nasa.gov/apod/image/2308/M31Clouds_Lopez_2048.jpg" alt="Astronomy Picture of the Day">
+            <h3 id="apod-title">Andromeda Galaxy with Satellite Galaxies</h3>
+            <p id="apod-desc">The Andromeda Galaxy, also known as M31, is the closest large spiral galaxy to our Milky Way. This stunning image shows Andromeda along with two of its satellite galaxies, M32 and M110. Andromeda is on a collision course with our galaxy, expected to merge in about 4.5 billion years.</p>
+        </div>
+    </section>
+
+    <!-- Navigation Cards -->
+    <section class="section" id="explore-more">
+        <h2 class="section-title">Explore More</h2>
+        <div class="nav-cards">
+            <div class="nav-card">
+                <h3>🚀 Famous Missions</h3>
+                <p>Discover NASA's most iconic space missions that have expanded our understanding of the universe.</p>
+                <a href="missions.html" class="btn">View Missions</a>
+            </div>
+            <div class="nav-card">
+                <h3>🛰 Current & Upcoming Projects</h3>
+                <p>Explore NASA's ongoing research and future missions that will shape the future of space exploration.</p>
+                <a href="projects.html" class="btn">View Projects</a>
+            </div>
+            <div class="nav-card">
+                <h3>🤖 Mars Rovers</h3>
+                <p>Follow the journeys of NASA's robotic explorers on the Red Planet and see their latest discoveries.</p>
+                <a href="rovers.html" class="btn">View Rovers</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About NASA</h3>
+                <p>NASA's vision is to discover and expand knowledge for the benefit of humanity.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="missions.html">Missions</a>
+                <a href="projects.html">Projects</a>
+                <a href="rovers.html">Rovers</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>NASA Headquarters</p>
+                <p>300 E. Street SW, Suite 5R30</p>
+                <p>Washington, DC 20546</p>
+                <p>(202) 358-0001 (Office)</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 NASA Corporation. All rights reserved.</p>
+        </div>
+    </footer> -->
+
+    <div class="grad"></div>
+
+    <div id="footer"></div>
+
+    <script>
+        // Simple script for smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    <script src="link.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Universe Website</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="logo">
+      <img src="content/nasa_logo_white.png" alt="NASA Logo" />
+    </div>
+    <nav class="navbar">
+      <a href="index.html">Home</a>
+      <a href="missions.html">Missions</a>
+      <a href="projects.html">Projects</a>
+      <a href="rovers.html">Rovers</a>
+      <div class="button"><a href="login.html">Log In</a></div>
+      <div class="button"><a href="signup.html">Sign Up</a></div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <img src="content/saturn.png" alt="Space Background" class="background-image" />
+    <div class="content-container">
+      <div class="text-content">
+        <div class="rectangle-box" id="missionsq"></div>
+        <div class="main-title">
+          <span class="cap-text">EXPLORE THE UNIVERSE</span>
+          <p class="description">Discover NASA's groundbreaking missions, cutting-edge research, and the technology that powers humanity's journey into the cosmos.</p>
+        </div>
+      </div>
+      <div class="divider-line"></div>
+    </div>
+  </div>
+
+  <div class="gradient-transition"></div>
+
+  <!-- Rovers Section -->
+  <section class="section" id="rovers-section">
+    <h2 class="section-title">Mars Rover Gallery</h2>
+
+    <!-- Rover Details Container -->
+    <div id="rover-details-container" class="rover-details">
+      <!-- Dynamic rover profile content goes here -->
+    </div>
+
+    <!-- Rover Gallery Container -->
+    <div id="rover-gallery" class="rover-gallery">
+      <!-- Dynamic rover images go here -->
+    </div>
+  </section>
+
+  <!-- Rover Statistics Section -->
+  <section class="section" id="rover-stats">
+    <h2 class="section-title">Rover Statistics</h2>
+    <div id="rover-stats-container" class="stats-grid">
+      <!-- Dynamic rover stats go here -->
+    </div>
+  </section>
+
+  <!-- Rover Timeline Section -->
+  <section class="section" id="rover-timeline">
+    <h2 class="section-title">Rover Mission Timeline</h2>
+    <div id="rover-timeline-container" class="rover-timeline">
+      <!-- Dynamic timeline content goes here -->
+    </div>
+  </section>
+
+  <div class="grad"></div>
+  <div id="footer"></div>
+
+  <!-- Smooth Scroll Script -->
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+
+  <!-- Footer Loader -->
+  <script>
+    fetch('footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer').innerHTML = data;
+      });
+  </script>
+
+  <script src="link.js"></script>
+</body>
+</html>

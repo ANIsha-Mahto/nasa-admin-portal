@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Footer Styling */
+footer {
+    background-image: url('content/rainbow_arc.png'); /* rainbow_arc image as background */
+    background-size: cover; /* Cover the entire footer area */
+    background-position: center bottom; /* Position at the bottom center */
+    background-repeat: no-repeat;
+    
+    background-color: #000; /* Fallback background color */
+    padding: 60px 0 50px 20px; /* Adjust padding as needed */
+    color: #fff;
+    font-family: Poppins, sans-serif;
+    text-align: center;
+    position: relative; /* Needed for z-index or absolute children */
+    z-index: 2; /* Ensure it's above other potential background elements if any */
+}
+
+/* Optional: Add a dark overlay to make text more readable over the background image */
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Dark overlay, adjust opacity as needed */
+    z-index: -1; /* Place behind content */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Allow sections to wrap on smaller screens */
+    /* max-width: 80vw; */
+    margin: 0  auto;
+    padding: 0 20px;
+}
+
+.footer-section {
+    flex: 1; /* Distribute space equally */
+    min-width: 250px; /* Minimum width before wrapping */
+    margin: 20px;
+    text-align: left; /* Align text within each section */
+}
+
+.footer-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #00bfff; /* NASA blue for headings */
+}
+
+.footer-section p, .footer-section a {
+    color: #ccc;
+    text-decoration: none;
+    line-height: 1.8;
+    display: block; /* Make links stack vertically */
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: #fff;
+}
+
+.footer-logo img {
+    max-width: 120px; /* Adjust logo size as needed */
+    height: auto;
+    margin-bottom: 20px;
+    /* filter: drop-shadow(0 0 5px rgba(0, 191, 255, 0.6)); */
+}
+
+.copyright {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section {
+        min-width: unset;
+        width: 100%;
+        margin: 15px 0;
+        text-align: center;
+    }
+}
+    </style>
+</head>
+<body>
+    <footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <div class="footer-logo">
+                <img src="content/nasa_logo_glow.jpg" alt="NASA Logo"> </div>
+            <h3>About NASA</h3>
+            <p>NASA's vision is to discover and expand knowledge for the benefit of humanity.</p>
+        </div>
+        <div class="footer-section">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="missions.html">Missions</a>
+            <a href="projects.html">Projects</a>
+            <a href="rovers.html">Rovers</a>
+        </div>
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <p>NASA Headquarters</p>
+            <p>300 E. Street SW, Suite 5R30</p>
+            <p>Washington, DC 20546</p>
+            <p>(202) 358-0001 (Office)</p>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>&copy; 2023 NASA Corporation. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

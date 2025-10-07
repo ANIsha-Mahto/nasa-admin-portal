@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universe Website</title>
+    <link rel="stylesheet" href="style.css"> <link href="https://fonts.googleapis/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo">
+            <img src="content/nasa_logo_white.png" alt="NASA Logo">
+        </div>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="missions.html">Missions</a>
+            <a href="projects.html">Projects</a>
+            <a href="rovers.html">Rovers</a>
+            
+            <div class="button"><a href="login.html">Log In</a></div>
+            <div class="button"><a href="signup.html">Sign Up</a></div>
+        </nav>
+    </header>
+
+    <div class="hero-section">
+        <img src="content/jupiter.png" alt="Space Background" class="background-image"> 
+        
+        <div class="content-container">
+
+            <div class="text-content">
+                <div class="rectangle-box" id="missionsq"></div> 
+                <div class="main-title">
+                    <span class="cap-text">NASA PROJECTS</span>
+                    <p class="description">Explore NASA's groundbreaking projects — from current innovations shaping space technology to upcoming missions preparing for the next frontier.</p>
+                </div>
+            </div>
+            
+            <div class="divider-line"></div>
+            
+        </div>
+    </div>
+
+    <!-- Content to add after the initial banner in projects.html -->
+<div class="gradient-transition"></div>
+
+<!-- Projects Section -->
+<section class="section" id="projects-section">
+    <h2 class="section-title">NASA Projects</h2>
+    
+    <!-- Project Tabs -->
+    <div class="project-tabs">
+        <button class="project-tab active" data-tab="current">Current Projects</button>
+        <button class="project-tab" data-tab="upcoming">Upcoming Projects</button>
+        <button class="project-tab" data-tab="completed">Completed Projects</button>
+    </div>
+
+    <!-- Current Projects Container -->
+    <div id="current-projects" class="project-category active">
+        <div class="projects-grid">
+            <!-- Current project cards will be dynamically inserted here by JavaScript -->
+            <!-- Template for reference:
+            <div class="project-card" data-status="current" data-category="space-exploration">
+                <img src="content/project-image.jpg" alt="Project Name" class="project-image">
+                <div class="project-content">
+                    <h3 class="project-title">Project Name</h3>
+                    <div class="project-meta">
+                        <span class="project-status">Current</span> • 
+                        <span class="project-field">Space Exploration</span>
+                    </div>
+                    <p class="project-desc">Project description goes here.</p>
+                    <div class="project-details">
+                        <div class="project-detail">
+                            <span class="detail-label">Launch Date:</span>
+                            <span class="detail-value">2023</span>
+                        </div>
+                        <div class="project-detail">
+                            <span class="detail-label">Duration:</span>
+                            <span class="detail-value">5 years</span>
+                        </div>
+                    </div>
+                    <div class="project-tags">
+                        <span class="project-tag">Technology</span>
+                        <span class="project-tag">Research</span>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+    </div>
+
+    <!-- Upcoming Projects Container -->
+    <div id="upcoming-projects" class="project-category">
+        <div class="projects-grid">
+            <!-- Upcoming project cards will be dynamically inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Completed Projects Container -->
+    <div id="completed-projects" class="project-category">
+        <div class="projects-grid">
+            <!-- Completed project cards will be dynamically inserted here by JavaScript -->
+        </div>
+    </div>
+</section>
+
+<!-- Project Statistics Section -->
+<section class="section" id="project-stats">
+    <h2 class="section-title">Project Statistics</h2>
+    <div id="project-stats-container" class="stats-grid">
+        <!-- Statistics cards will be dynamically inserted here by JavaScript -->
+        <!-- Template for reference:
+        <div class="stat-card">
+            <div class="stat-number" data-count="85">0</div>
+            <div class="stat-label">Active Projects</div>
+        </div>
+        -->
+    </div>
+</section>
+
+<!-- Project Timeline Section -->
+<section class="section" id="project-timeline">
+    <h2 class="section-title">Project Timeline</h2>
+    <div id="project-timeline-container" class="project-timeline">
+        <!-- Timeline items will be dynamically inserted here by JavaScript -->
+        <!-- Template for reference:
+        <div class="timeline-item">
+            <div class="timeline-date">2023</div>
+            <div class="timeline-content">
+                <h3 class="timeline-title">Project Milestone</h3>
+                <p class="timeline-desc">Description of the project milestone.</p>
+            </div>
+        </div>
+        -->
+    </div>
+</section>
+
+    <div class="grad"></div>
+    <div id="footer"></div>
+
+    <script>
+        // Simple script for smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.project-tab');
+    const projectCategories = document.querySelectorAll('.project-category');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all tabs and categories
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            projectCategories.forEach(cat => cat.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Show the corresponding category
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(`${tabId}-projects`).classList.add('active');
+        });
+    });
+});
+    </script>
+
+    <script src="link.js"></script>
+    
+
+</body>
+</html>
