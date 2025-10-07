@@ -84,6 +84,7 @@
       });
     }
 
+    
     // ❌ Function to delete mission
     function deleteMission(id) {
       db.collection("missions").doc(id).delete().then(() => {
