@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>NASA Admin Panel</title>
+</head>
+<body>
+  <h1>🚀 NASA Admin Panel</h1>
+
+  <!-- Add Mission Form -->
+  <h2>Add New Mission</h2>
+  <input type="text" id="missionTitle" placeholder="Title"><br>
+  <input type="number" id="missionYear" placeholder="Year"><br>
+  <input type="text" id="missionStatus" placeholder="Status (active/completed/upcoming)"><br>
+  <textarea id="missionDesc" placeholder="Description"></textarea><br>
+  <input type="text" id="missionImage" placeholder="Image URL"><br>
+  <button onclick="addMission()">Add Mission</button>
+
+  <hr>
+
+  <h2>All Missions</h2>
+  <div id="missionsList"></div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js"></script>
+
+  <script>
+    // 🔧 Replace with your Firebase config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ✅ Function to add mission
+    function addMission() {
+      const title = document.getElementById('missionTitle').value;
+      const year = parseInt(document.getElementById('missionYear').value);
+      const status = document.getElementById('missionStatus').value;
+      const description = document.getElementById('missionDesc').value;
+      const image = document.getElementById('missionImage').value;
+
+      db.collection("missions").add({
+        title,
+        year,
+        status,
+        description,
+        image
+      }).then(() => {
+        alert("✅ Mission added!");
+        loadMissions(); // Reload after adding
+      }).catch((error) => {
+        console.error("❌ Error adding mission: ", error);
+      });
+    }
+
+    // 🔁 Function to load and display missions
+    function loadMissions() {
+      const container = document.getElementById('missionsList');
+      container.innerHTML = '';
+
+      db.collection("missions").get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const missionHTML = `
+            <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+              <h3>${data.title} (${data.year})</h3>
+              <p><strong>Status:</strong> ${data.status}</p>
+              <p>${data.description}</p>
+              <img src="${data.image}" alt="mission image" width="200"><br>
+              <button onclick="deleteMission('${doc.id}')">Delete</button>
+            </div>
+          `;
+          container.innerHTML += missionHTML;
+        });
+      });
+    }
+
+    // ❌ Function to delete mission
+    function deleteMission(id) {
+      db.collection("missions").doc(id).delete().then(() => {
+        alert("🗑 Mission deleted!");
+        loadMissions();
+      });
+    }
+
+    // Call loadMissions() when page loads
+    window.onload = loadMissions;
+  </script>
+</body>
+</html>
